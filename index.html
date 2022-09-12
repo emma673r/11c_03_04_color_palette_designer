@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Color Palette Designer</title>
+    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main>
+      <div id="harmonies">
+        <p>Use harmony rules:</p>
+        <input type="radio" name="harmony" value="analog" id="analog" /><label for="analog">Analogous</label>
+        <input type="radio" name="harmony" value="monochromatic" id="monochromatic" /><label for="monochromatic">Monochromatic</label>
+        <input type="radio" name="harmony" value="triadic" id="triadic" /><label for="triadic">Triad</label>
+        <input type="radio" name="harmony" value="complementary" id="complementary" /><label for="complementary">Complementary</label>
+        <input type="radio" name="harmony" value="compound" id="compound" /><label for="compound">Compound</label>
+        <input type="radio" name="harmony" value="shades" id="shades" /><label for="shades">Shades</label>
+      </div>
+      <div id="wheel">
+        <div class="selector">
+          <label for="basecolor"
+            >Select base color:
+            <input type="color" id="basecolor" value="#bada55" />
+          </label>
+        </div>
+      </div>
+      <div id="palette">
+        <div id="color1" class="colorinfo">
+          <div class="colorbox"></div>
+          <div class="info">
+            <dl>
+              <dt>
+                HEX:
+              </dt>
+              <dd data-info="hex">#bada55</dd>
+              <dt>
+                RGB:
+              </dt>
+              <dd data-info="rgb">235,443,343</dd>
+              <dt>
+                HSL:
+              </dt>
+              <dd data-info="hsl">240,24%,54%</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div id="color2" class="colorinfo">
+          <div class="colorbox"></div>
+          <div class="info">
+            <dl>
+              <dt>
+                HEX:
+              </dt>
+              <dd data-info="hex">#bada55</dd>
+              <dt>
+                RGB:
+              </dt>
+              <dd data-info="rgb">235,443,343</dd>
+              <dt>
+                HSL:
+              </dt>
+              <dd data-info="hsl">240,24%,54%</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div id="color3" class="colorinfo">
+          <div class="colorbox"></div>
+          <div class="info">
+            <dl>
+              <dt>
+                HEX:
+              </dt>
+              <dd data-info="hex">#bada55</dd>
+              <dt>
+                RGB:
+              </dt>
+              <dd data-info="rgb">235,443,343</dd>
+              <dt>
+                HSL:
+              </dt>
+              <dd data-info="hsl">240,24%,54%</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div id="color4" class="colorinfo">
+          <div class="colorbox"></div>
+          <div class="info">
+            <dl>
+              <dt>
+                HEX:
+              </dt>
+              <dd data-info="hex">#bada55</dd>
+              <dt>
+                RGB:
+              </dt>
+              <dd data-info="rgb">235,443,343</dd>
+              <dt>
+                HSL:
+              </dt>
+              <dd data-info="hsl">240,24%,54%</dd>
+            </dl>
+          </div>
+        </div>
+
+        <div id="color5" class="colorinfo">
+          <div class="colorbox"></div>
+          <div class="info">
+            <dl>
+              <dt>
+                HEX:
+              </dt>
+              <dd data-info="hex">#bada55</dd>
+              <dt>
+                RGB:
+              </dt>
+              <dd data-info="rgb">235,443,343</dd>
+              <dt>
+                HSL:
+              </dt>
+              <dd data-info="hsl">240,24%,54%</dd>
+            </dl>
+          </div>
+        </div>
+
+      </div>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
