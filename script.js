@@ -4,6 +4,7 @@ window.addEventListener("DOMContentLoaded", start);
 
 const settings = {
   selectedColor: null,
+  harmony: calcAnalogous,
 };
 
 function start() {
@@ -14,13 +15,12 @@ function start() {
   registerButtons();
 
   // make sure we select analogous
+  document.querySelector("#analog").checked = true;
 }
 
 function registerButtons() {
   // colorwheel / basecolor
-  document
-    .querySelector("#basecolor")
-    .addEventListener("input", changeBaseColor);
+  document.querySelector("#basecolor").addEventListener("input", changeBaseColor);
 
   // harmonies
   document.querySelector("#harmonies").addEventListener("click", changeHarmony);
@@ -39,6 +39,7 @@ function changeBaseColor(event) {
 
   setBaseColor(color);
 }
+
 // createFourCopies
 function createFourCopies(original) {
   const copies = [];
@@ -49,34 +50,123 @@ function createFourCopies(original) {
 }
 
 // clampColors
+function clampColors(colors) {
+  colors.forEach((color) => {
+    color.h = limit(color.h, 360);
+    color.s = limit(color.s, 100);
+    color.l = limit(color.l, 100);
+  });
+}
 
 // I have two different "clamping" functions - this one rolls round
 // limit
 
+function limit(value, max) {
+  console.log((max + value) % max);
+  return (max + value) % max;
+}
+
 // I have two different "clamping" functions - this one stops at min and max
 // clamp
 
+function clamp(value, max = 100, min = 100) {
+  if (value < min) {
+    value = min;
+  } else if (value > max) {
+    value = max;
+  }
+  return value;
+}
+
 // calculate four analogous colors from a basecolor
+function calcAnalogous(base, colors) {
+  colors[0].h = base.h - 80;
+  colors[1].h = base.h - 40;
+  colors[2].h = base.h + 40;
+  colors[3].h = base.h + 80;
+}
 
 //  monochromatic
 
+function calcMonochromatic(base, colors) {
+  colors[0].l = base.l + 40;
+  colors[1].l = base.l + 20;
+  colors[2].s = base.s - 20;
+  colors[3].s = base.s - 40;
+}
+
 //  triadic
+
+function calcTriadic(base, colors) {
+  colors[0].h = base.h + 120;
+  colors[1].h = base.h + 60;
+  colors[2].h = base.h + 180;
+  colors[3].h = base.h + 240;
+}
 
 // complementary
 
+function calcComplementary(base, colors) {
+  colors[0].h = base.h + 180;
+  colors[1].h = base.h - 40;
+  colors[2].h = base.h + 40;
+  colors[3].h = base.h + 80;
+}
+
 // compound
 
+function calcCompound(base, colors) {
+  colors[0].h = base.h + 100;
+  colors[1].h = base.h - 80;
+  colors[2].h = base.h - 40;
+  colors[3].h = base.h - 180;
+}
+
 // shades
+
+function calcShades(base, colors) {
+  // let calc1 = base.l / 2.5;
+  // let calc2 = base.l / 10;
+
+  // colors[0].l = base.l + calc1;
+  // colors[1].l = base.l + calc2;
+  // colors[2].l = base.l - calc2;
+  // colors[3].l = base.l - calc1;
+
+  //* or * -- experiments
+
+
+  colors[0].l = 20;
+  colors[1].l = 40;
+  colors[2].l = 60;
+  colors[3].l = 80;
+}
 
 // setHarmony
 function setHarmony(harmony) {
   console.log("harmony", harmony);
 
-  /*   switch (harmony) {
+  switch (harmony) {
     case "analog":
-      console.log("here");
+      settings.harmony = calcAnalogous;
+      // console.log("here");
       break;
-  } */
+    case "monochromatic":
+      settings.harmony = calcMonochromatic;
+      break;
+    case "triadic":
+      settings.harmony = calcTriadic;
+      break;
+    case "complementary":
+      settings.harmony = calcComplementary;
+      break;
+    case "compound":
+      settings.harmony = calcCompound;
+      break;
+    case "shades":
+      settings.harmony = calcShades;
+      break;
+  }
 
   calculateHarmony();
 }
@@ -88,7 +178,7 @@ function setBaseColor(color) {
 
   settings.selectedColor = color;
 
-  //calculateHarmony();
+  calculateHarmony();
 }
 
 // calculateHarmony
@@ -98,11 +188,13 @@ function calculateHarmony() {
 
   // console.log(settings.selectedColor);
   // console.log("base: ", base);
+
   const colors = createFourCopies(base);
-  colors[0].h = base.h - 60;
-  colors[1].h = base.h - 30;
-  colors[2].h = base.h + 30;
-  colors[3].h = base.h + 60;
+
+  settings.harmony(base, colors);
+
+  clampColors(colors);
+
   console.log("colors: ", colors);
   colors.forEach((color, i) => {
     const rgb = convertHSLtoRGB(color);
@@ -132,16 +224,12 @@ function showHex(index, hex) {
 
 function showRGB(index, rgb) {
   const colorinfo = document.querySelector("#color" + index);
-  colorinfo.querySelector(
-    "[data-info=rgb]"
-  ).textContent = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
+  colorinfo.querySelector("[data-info=rgb]").textContent = `rgb(${rgb.r}, ${rgb.g}, ${rgb.b})`;
 }
 
 function showHSL(index, hsl) {
   const colorinfo = document.querySelector("#color" + index);
-  colorinfo.querySelector("[data-info=hsl]").textContent = `hsl(${Math.floor(
-    hsl.h
-  )}, ${Math.floor(hsl.s)}%, ${Math.floor(hsl.l)}%)`;
+  colorinfo.querySelector("[data-info=hsl]").textContent = `hsl(${Math.floor(hsl.h)}, ${Math.floor(hsl.s)}%, ${Math.floor(hsl.l)}%)`;
 }
 
 function getRandomColor() {
